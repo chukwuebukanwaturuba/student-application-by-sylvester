@@ -17,10 +17,7 @@ import java.util.List;
 
 public class StudentController {
      private final StudentService studentService;
-//update the student entity class to have a password field
-    //drop your table (delete a table) how to drop table,
-    //implement spring security on this application.
-//registers student
+
      @PostMapping ("/signup")
      public ResponseEntity<RegisterStudentResponse> register(@RequestBody @Valid RegisterStudentRequest registerStudentRequest) {
         return ResponseEntity.ok(studentService.registerStudent(registerStudentRequest));

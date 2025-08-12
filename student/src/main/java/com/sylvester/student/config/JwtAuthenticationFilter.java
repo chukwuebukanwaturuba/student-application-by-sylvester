@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
-            // to ake then not null add he notnull annotation
+
             @NonNull HttpServletRequest request,
             @NonNull  HttpServletResponse response,
             @NonNull  FilterChain filterChain

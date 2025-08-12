@@ -30,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public RegisterStudentResponse registerStudent(RegisterStudentRequest request) {
-        // Check if phone already exists
+
         if (studentRepository.findByPhone(request.getPhone()).isPresent()) {
             throw new RuntimeException("Phone number already exists!");
         }
