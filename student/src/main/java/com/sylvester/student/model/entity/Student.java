@@ -25,6 +25,7 @@ public class Student implements UserDetails {
     private String name;
     private String dob;
     private String phone;
+    private String email;
     private String department;
     private String password;
     @Enumerated(EnumType.STRING)

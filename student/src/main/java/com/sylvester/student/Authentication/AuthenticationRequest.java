@@ -1,18 +1,22 @@
 package com.sylvester.student.Authentication;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 @Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
     public class AuthenticationRequest {
+    @NotBlank(message = "password can not be blank")
+    private String emailOrPhoneNumber;
 
-        private String email;
-        String password;
-    }
+    @NotBlank(message = "password can not be blank")
+        private String password;
+
+
+}
 

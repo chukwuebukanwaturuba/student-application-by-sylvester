@@ -15,6 +15,9 @@ public class RegisterStudentRequest {
     @NotBlank(message = "Phone is required")
     private String phone;
 
+    @NotBlank(message = "Email  is required")
+    private String email;
+
     @NotBlank(message = "Department is required")
     private String department;
 

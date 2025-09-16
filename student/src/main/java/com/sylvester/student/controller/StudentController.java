@@ -1,5 +1,7 @@
 package com.sylvester.student.controller;
 
+import com.sylvester.student.Authentication.AuthenticationRequest;
+import com.sylvester.student.Authentication.AuthenticationResponse;
 import com.sylvester.student.model.dto.request.RegisterStudentRequest;
 import com.sylvester.student.model.dto.request.UpdateStudentRequest;
 import com.sylvester.student.model.dto.response.RegisterStudentResponse;
@@ -34,6 +36,12 @@ public class StudentController {
      public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
          Student student = studentService.getStudentById(id);
          return ResponseEntity.ok(student);
+     }
+     // login
+     @PostMapping("/login")
+     public AuthenticationResponse login( @RequestBody @Valid AuthenticationRequest request) {
+
+         return studentService.authenticate(request);
      }
      // to edit students
      @PutMapping("/students/{id}")

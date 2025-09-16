@@ -34,11 +34,15 @@ public class StudentServiceImpl implements StudentService {
         if (studentRepository.findByPhone(request.getPhone()).isPresent()) {
             throw new RuntimeException("Phone number already exists!");
         }
+        if (studentRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email number already exists!");
+        }
 
         Student newStudent = Student.builder()
                 .name(request.getName())
                 .dob(request.getDob())
                 .phone(request.getPhone())
+                .email(request.getEmail())
                 .department(request.getDepartment())
                 .password(passwordEncoder.encode(request.getPassword())) // Encrypt password
                 .role(Role.USER)
@@ -48,20 +52,82 @@ public class StudentServiceImpl implements StudentService {
         return new RegisterStudentResponse("Student Registered Successfully", savedStudent);
     }
 
+
+
+//    @Override
+//    public AuthenticationResponse authenticate(AuthenticationRequest request)  {
+//        String identifier = request.getEmailOrPhoneNumber();
+//        Student student = studentRepository.findByEmail(identifier)
+//                .orElseThrow();
+//        if(!passwordEncoder.matches(request.getPassword(), student.getPassword())){
+//            throw new RuntimeException("Incorrect Password ");
+//        }
+//      //  validateUser(student);
+//        //student.isEnabled(true);
+//      //  student.setVerified(true);
+//
+//       studentRepository.save(student);
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        identifier,
+//                        request.getPassword()
+//                )
+//        );
+//
+//
+//        String jwtToken = jwtService.generateToken(student);
+//        AuthenticationResponse response = createLoginResponse(jwtToken);
+//        System.out.println("here=========");
+//        return response;
+//    }
+
+
+    public AuthenticationResponse createLoginResponse(String jwtToken) {
+        return AuthenticationResponse.builder()
+               // .accessToken(jwtToken)
+               // .username(student.getFirstName())
+             //   .fullName(student.getFirstName() + " " + student.getLastName())
+             //   .employeeId(student.getEmployeeId())
+                .token(jwtToken)
+                .refreshToken(jwtToken)
+                .build();
+    }
+
+
+   /* private void validateUser(Student student) {
+        if (student.) {
+            throw new EMPLOYEEAPPException(ErrorStatus.INCOMPLETE_REGISTRATION_ERROR);
+        }
+
+    }*/
+
+
+
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        String identifier = request.getEmailOrPhoneNumber();
+
+        // Try email first, then phone
+        Student student = studentRepository.findByEmail(identifier)
+                .or(() -> studentRepository.findByPhone(identifier))
+                .orElseThrow(() -> new RuntimeException("User not found with email/phone: " + identifier));
+
+        // validate password
+        if (!passwordEncoder.matches(request.getPassword(), student.getPassword())) {
+            throw new RuntimeException("Incorrect password");
+        }
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(), request.getPassword()
+                        identifier,
+                        request.getPassword()
                 )
         );
-
-        Student student = studentRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
         String jwtToken = jwtService.generateToken(student);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .refreshToken(jwtToken) // you may want a real refresh token later
                 .build();
     }
 

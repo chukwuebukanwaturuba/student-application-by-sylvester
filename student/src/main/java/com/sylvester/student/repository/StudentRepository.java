@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByEmail(String email);
 
-    Optional<Object> findByPhone(@NotBlank(message = "Phone is required") String phone);
+    Optional<Student> findByPhone( String phone);
 }
 
