@@ -45,7 +45,6 @@ private final JwtService jwtService;
         String jwtToken = jwtService.generateToken(student);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .refreshToken(jwtToken) // you may want a real refresh token later
                 .build();
     }
 
