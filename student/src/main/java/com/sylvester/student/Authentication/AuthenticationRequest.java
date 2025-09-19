@@ -5,18 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-    public class AuthenticationRequest {
-    @NotBlank(message = "password can not be blank")
-    private String emailOrPhoneNumber;
+public class AuthenticationRequest {
+    @NotBlank(message = "Email can not be blank")
+    private String email;
 
     @NotBlank(message = "password can not be blank")
-        private String password;
-
-
+    private String password;
 }
 

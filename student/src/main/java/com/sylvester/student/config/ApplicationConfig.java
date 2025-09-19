@@ -20,16 +20,13 @@ public class ApplicationConfig {
 
     private final StudentRepository repository;
 
+
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return repository.findByPhone(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            }
-        };
+        return username -> repository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
     }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

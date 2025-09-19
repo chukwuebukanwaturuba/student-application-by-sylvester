@@ -13,17 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-@RequestMapping ("/api/v1")
+@RequestMapping ("/api/v1/student")
 @RestController
 @RequiredArgsConstructor
 
 public class StudentController {
      private final StudentService studentService;
 
-     @PostMapping ("/signup")
-     public ResponseEntity<RegisterStudentResponse> register(@RequestBody @Valid RegisterStudentRequest registerStudentRequest) {
-        return ResponseEntity.ok(studentService.registerStudent(registerStudentRequest));
-     }
 
 //get all students
      @GetMapping("/students")
@@ -37,12 +33,7 @@ public class StudentController {
          Student student = studentService.getStudentById(id);
          return ResponseEntity.ok(student);
      }
-     // login
-     @PostMapping("/login")
-     public AuthenticationResponse login( @RequestBody @Valid AuthenticationRequest request) {
 
-         return studentService.authenticate(request);
-     }
      // to edit students
      @PutMapping("/students/{id}")
      public ResponseEntity<Student> updateStudent(

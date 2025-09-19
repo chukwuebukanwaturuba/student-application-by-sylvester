@@ -10,9 +10,6 @@ import com.sylvester.student.model.entity.Student;
 import java.util.List;
 
 public interface StudentService {
-    RegisterStudentResponse registerStudent(RegisterStudentRequest registerStudentRequest);
-
-    AuthenticationResponse authenticate(AuthenticationRequest request);
 
     // New method to get all students
     List<Student> getAllStudents();
